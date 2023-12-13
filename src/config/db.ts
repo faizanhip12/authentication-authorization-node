@@ -19,6 +19,7 @@ export default async (): Promise<typeof mongoose> => {
     // When successfully connected
     mongoose.connection.on("connected", () => {
         // dbLogger.info("Mongoose default connection open to " + dbURI);
+        console.log("monoconnect")
     });
 
     // If the connection throws an error

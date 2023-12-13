@@ -1,25 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { Application } from "express";
+import express, { Application, Router } from "express";
+import {UserRoutes} from './module/auth/routes'
 import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
+import { UserController } from "./module/auth/controller";
 config()
 
 
 const app = express();
-
+// const controller:UserController = new UserController()
 
 app.use(
   bodyParser.json({
     limit: "50mb",
   })
 );
-app.use(
-  cors({
-    credentials: true,
-  })
-);
-
 app.use(
   bodyParser.urlencoded({
     limit: "50mb",
@@ -28,13 +24,40 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 
-app.use(express.static(__dirname + '/public/'));
-app.use("/upload", express.static("src/upload"));
 
-// app.use("/api/v1", [
+//  const authRoutes = Router();
+// authRoutes.post(
+//   "/user","/user",controller.create
 
-// ]);
+ 
+// );
+// app.use(express.static(__dirname + '/public/'));
+// app.use("/upload", express.static("src/upload"));
+
+app.use("/api/v1", [
+ new UserRoutes().router
+]);
+// app.get('/api/data', async (req:any, res:any) => {
+//   try {
+//     // Make a GET request to an external API (replace with your API endpoint)
+//     // const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
+//     // const data = response.data;
+
+//     // res.json(data);
+//     res.status(403).send("nasaruallah")
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
 
 
 
