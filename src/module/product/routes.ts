@@ -13,8 +13,8 @@ export class UserRoutes {
     }
 
  initRoutes(){
-    this.router.post('/auth/signup', this.controller.signup);
-    this.router.post('/auth/signin', this.controller.signin);
+    this.router.get('/products', this.controller.get);
+ 
  }
     
     

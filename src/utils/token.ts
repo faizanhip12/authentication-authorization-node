@@ -3,8 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 
 const secretKey = 'your-secret-key';
 
-export const generateToken = (user: any): string => {
-    return jwt.sign(user, secretKey, { expiresIn: '1h' });
+export const generateToken =  (user: any)=> {
+  console.log("generate token",user)
+    const token =jwt.sign(user, secretKey);
+    console.log("token",token)
+    return token
   };
   
   export const verifyToken = (req: Request, res: Response, next: NextFunction): any => {
