@@ -1,11 +1,12 @@
 import { UserRepository, UserModel } from './model'
-import { generateToken } from '../../utils/token'
+
+
 
 import asyncHandler from '../../utils/async'
 import * as bcrypt from 'bcrypt';
 
-export class UserController {
-  user = new UserRepository()
+export class ProductController {
+  // user = new UserRepository()
   constructor() { }
 
   // signup = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {

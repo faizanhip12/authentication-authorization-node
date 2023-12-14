@@ -12,6 +12,8 @@ export const generateToken =  (user: any)=> {
   
   export const verifyToken = (req: Request, res: Response, next: NextFunction): any => {
     const token = req.header('Authorization');
+    //@ts-ignore
+    console.log("req.user", req.header('Authorization'))
   
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
@@ -19,6 +21,7 @@ export const generateToken =  (user: any)=> {
   
     jwt.verify(token, secretKey, (err: any, decoded: any) => {
       if (err) {
+        console.log("err",err)
         return res.status(403).json({ message: 'Forbidden' });
       }
   

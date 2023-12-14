@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { UserController } from "./module/auth/controller";
+import { ProductRoutes } from "./module/product/routes";
 config()
 
 
@@ -41,7 +42,8 @@ app.use(
 // app.use("/upload", express.static("src/upload"));
 
 app.use("/api/v1", [
- new UserRoutes().router
+ new UserRoutes().router,
+ new ProductRoutes().router
 ]);
 // app.get('/api/data', async (req:any, res:any) => {
 //   try {
