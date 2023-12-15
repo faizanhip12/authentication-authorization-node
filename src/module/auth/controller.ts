@@ -10,7 +10,7 @@ export class UserController {
 
   signup = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
 
-    // console.log("user",req.body)
+    console.log("user",req.body)
     try {
       console.log("try")
       const findUser = await this.user.findOne({ username: req.body.username })

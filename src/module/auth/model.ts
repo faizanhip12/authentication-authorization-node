@@ -13,7 +13,8 @@ enum Roles{
 
 export default interface User extends Document {
     username:string,
-    password:string
+    password:string,
+    role:string
   }
   
   const schema = new Schema(
