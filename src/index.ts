@@ -3,8 +3,25 @@ import { Server, createServer } from "http";
 import { config } from "dotenv";
 import app from "./app";
 import db from "./config/db";
+import * as socketIo from "socket.io"; // Import socket.io library
 config()
 const server: Server = createServer(app);
+
+
+const io = new socketIo.Server(server); // Create socket.io instance
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  // Handle socket events here
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+
+
 const port = Number(process.env.PORT || 9000);
 
 db()

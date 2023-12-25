@@ -94,6 +94,13 @@ export class ProductController {
         }
       
       ]
+
+      res.status(200).send({
+        success: true,
+        message: 'success',
+        data: productObject ,
+      
+      });
       // console.log("try")
       // const findUser = await this.user.findOne({ username: req.body.username })
       // console.log("findUser", findUser)
@@ -121,7 +128,7 @@ export class ProductController {
 
     }
     catch (err) {
-      // res.status(403).send("bad request")
+      res.status(403).send("bad request")
     }
   });
 

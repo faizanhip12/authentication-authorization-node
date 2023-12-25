@@ -13,7 +13,7 @@ export const generateToken = (user: any) => {
 export const verifyToken = (req: Request, res: Response, next: NextFunction): any => {
   const token = req.header('Authorization');
   //@ts-ignore
-  // console.log("req.user", req.header('Authorization'))
+  console.log("req.user verify token", )
 
 
   if (!token) {
