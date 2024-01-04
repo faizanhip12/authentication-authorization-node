@@ -77,6 +77,22 @@ export class UserController {
     }
   });
 
+
+  upload = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
+
+    // console.log("user",req.body)
+    try {
+      console.log("try")
+      console.log(req.file);
+      res.send('File uploaded successfully!').status(200);
+     
+
+    }
+    catch (err) {
+      res.status(403).send("bad request")
+    }
+  });
+
   
 
 
