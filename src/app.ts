@@ -5,15 +5,27 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { UserController } from "./module/auth/controller";
-import { ProductRoutes } from "./module/category/routes";
+import { ProductRoutes } from "./module/categoryy/routes";
 import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
 import {customError} from './utils/customErrorHandeler';
+import expressPinoLogger from 'express-pino-logger'
+import {logger} from './utils/logger'
+
 
 config()
 
 
 const app = express();
+const loggerMidlleware = expressPinoLogger({
+  logger: logger,
+  autoLogging: true,
+});
 // const controller:UserController = new UserController()
+// app.use(logger)
+
+
+
+// app.use(loggerMidlleware);
 
 app.use(
   bodyParser.json({

@@ -6,6 +6,9 @@ import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
 import {ApiResponse} from '../../core/response'
 import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
+import {logger} from '../../utils/logger'
+// import {logger} from '../../utils/pinoHTTP'
+
 
 export class UserController {
  apiResponse = new ApiResponse()
@@ -19,6 +22,7 @@ export class UserController {
 
     const findUser = await this.user.findOne({ username: req.body.username })
     console.log("findUser", findUser)
+    
     if (findUser) {
       res.status(403).send("user alredy exits")
     }
@@ -53,8 +57,17 @@ export class UserController {
     // console.log("user",req.body)
 
     console.log("try")
+    logger.http('GET route is accessed')
+  
+
+    logger.info('GET route is accessed')
+    logger.debug('GET route is accessed')
+    logger.warn('GET route is accessed')
+    logger.fatal('GET route is accessed')
+   
     const findUser = await this.user.findOne({ username: req.body.username })
-    console.log("findUser", findUser)
+
+    // console.log("findUser", findUser)
     if (findUser) {
 
       const isMatch = await bcrypt.compare(req.body.password, findUser.password);
@@ -113,13 +126,6 @@ export class UserController {
 
     
   });
-
-
-
-
-
-
-
 
 
 }
