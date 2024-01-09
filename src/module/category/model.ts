@@ -1,7 +1,7 @@
 import { model, Schema, Document,Model } from "mongoose";
 
-export const DOCUMENT_NAME = "User";
-export const COLLECTION_NAME = "users";
+export const DOCUMENT_NAME = "Product";
+export const COLLECTION_NAME = "products";
 
 
 enum Roles{
@@ -12,9 +12,8 @@ enum Roles{
 
 
 export default interface User extends Document {
-    username:string,
-    password:string,
-    role:string
+    productName:string,
+    password:string
   }
   
   const schema = new Schema(
@@ -39,11 +38,6 @@ export default interface User extends Document {
         trim: true,
   
       },
-      refreshToken:{
-        type: Schema.Types.String,
-        required: true,
-       
-      }
 
     },
   

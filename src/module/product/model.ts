@@ -1,82 +1,74 @@
-import { model, Schema, Document,Model } from "mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 
-export const DOCUMENT_NAME = "User";
-export const COLLECTION_NAME = "users";
+export const DOCUMENT_NAME = "Category";
+export const COLLECTION_NAME = "Catogries";
 
 
-enum Roles{
-    ADMIN="ADMIN",
-    USER ="USER"
+export default interface Category extends Document {
+  name: string;
+  description?: string;
+  userId: Schema.Types.ObjectId;
 }
 
+const schema = new Schema(
+  {
 
-
-export default interface User extends Document {
-    productName:string,
-    password:string
-  }
-  
-  const schema = new Schema(
-    {
-    
-      username: {
-        type: Schema.Types.String,
-        required: true,
-        trim: true,
-  
-      },
-      password: {
-        type: Schema.Types.String,
-        required: true,
-        trim: true,
-  
-      },
-      role: {
-        type: Schema.Types.String,
-        required: true,
-        default:Roles.ADMIN,
-        trim: true,
-  
-      },
+    name: {
+      type: Schema.Types.String,
+      required: true,
+      trim: true,
 
     },
-  
-    {
-      timestamps: true,
-      versionKey: false,
-    }
-  );
-  
-  export const UserModel = model<User>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+    description: {
+      type: Schema.Types.String,
+      required: true,
+      trim: true,
 
-  export class UserRepository {
-    private userModel: Model<User>;
-  
-    constructor() {
-      this.userModel = UserModel;
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
     }
-  
-    async create(user: Partial<User>): Promise<User> {
-      return this.userModel.create(user);
-    }
-  
-    async findOne(query: Record<string, any>): Promise<User| null> {
-      return this.userModel.findOne(query).exec();
-    }
-  
-    async findMany(query: Record<string, any>): Promise<User[]> {
-      return this.userModel.find(query).exec();
-    }
-  
-    async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<User | null> {
-      return this.userModel.findOneAndUpdate(query, update, { new: true }).exec();
-    }
-  
-    async deleteAll(): Promise<void> {
-      await this.userModel.deleteMany({}).exec();
-    }
-  
-    async deleteOne(query: Record<string, any>): Promise<void> {
-      await this.userModel.deleteOne(query).exec();
-    }
+
+  },
+
+  {
+    timestamps: true,
+    versionKey: false,
   }
+);
+
+export const CategoryModel = model<Category>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+
+export class UserRepository {
+  private categoryModel: Model<Category>;
+
+  constructor() {
+    this.categoryModel = CategoryModel;
+  }
+
+  async create(user: Partial<Category>): Promise<Category> {
+    return this.categoryModel.create(user);
+  }
+
+  async findOne(query: Record<string, any>): Promise<Category| null> {
+    return this.categoryModel.findOne(query).exec();
+  }
+
+  async findMany(query: Record<string, any>): Promise<Category[]> {
+    return this.categoryModel.find(query).exec();
+  }
+
+  async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Category | null> {
+    return this.categoryModel.findOneAndUpdate(query, update, { new: true }).exec();
+  }
+
+  async deleteAll(): Promise<void> {
+    await this.categoryModel.deleteMany({}).exec();
+  }
+
+  async deleteOne(query: Record<string, any>): Promise<void> {
+    await this.categoryModel.deleteOne(query).exec();
+  }
+}

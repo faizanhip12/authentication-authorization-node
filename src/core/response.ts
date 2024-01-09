@@ -13,7 +13,7 @@ enum ResponseStatus {
 
 }
 
-class ApiResponse {
+export class ApiResponse {
 
     constructor() { }
     // 200 REQUEST
