@@ -5,13 +5,14 @@ import asyncHandler from '../../utils/async'
 import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
 import {ApiResponse} from '../../core/response'
+import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
 
 export class UserController {
  apiResponse = new ApiResponse()
   user = new UserRepository()
   constructor() { }
 
-  signup = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
+  signup = asyncHandler(async (req: Request  , res: Response ): Promise<Response | void> => {
 
     // console.log("user", req.body)
 
@@ -47,7 +48,7 @@ export class UserController {
 
   });
 
-  signin = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
+  signin = asyncHandler(async (req: Request, res: Response | any): Promise<Response | void> => {
 
     // console.log("user",req.body)
 
@@ -84,10 +85,10 @@ export class UserController {
   });
 
 
-  upload = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
+  upload = asyncHandler(async (req: Request, res: Response ): Promise<Response | void> => {
 
     // console.log("user",req.body)
-    try {
+
       // console.log("try")
       // console.log(req.imageUrl);
       // res.send('File uploaded successfully!').status(200);
@@ -110,10 +111,7 @@ export class UserController {
       // res.status(200).send("bad request",{ imageUrl: imageUrl })
 
 
-    }
-    catch (err) {
-      res.status(403).send("bad request")
-    }
+    
   });
 
 

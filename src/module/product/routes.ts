@@ -13,7 +13,7 @@ export class ProductRoutes {
     }
 
  initRoutes(){
-    this.router.get('/products',verifyToken, this.controller.get);
+    this.router.get('/products',verifyToken, this.controller.getAll);
  
  }
     

@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { UserController } from "./module/auth/controller";
-import { ProductRoutes } from "./module/product/routes";
+import { ProductRoutes } from "./module/category/routes";
 import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
 import {customError} from './utils/customErrorHandeler';
 
