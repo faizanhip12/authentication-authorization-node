@@ -60,10 +60,10 @@ export class UserController {
     logger.http('GET route is accessed')
   
 
-    logger.info('GET route is accessed')
-    logger.debug('GET route is accessed')
-    logger.warn('GET route is accessed')
-    logger.fatal('GET route is accessed')
+    // logger.info('GET route is accessed')
+    // logger.debug('GET route is accessed')
+    // logger.warn('GET route is accessed')
+    // logger.fatal('GET route is accessed')
    
     const findUser = await this.user.findOne({ username: req.body.username })
 
