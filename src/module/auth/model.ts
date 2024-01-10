@@ -44,7 +44,7 @@ const schema = new Schema(
     },
     refreshToken: {
       type: Schema.Types.String,
-      required: true,
+      // required: true,
 
     },
     googleId: {
