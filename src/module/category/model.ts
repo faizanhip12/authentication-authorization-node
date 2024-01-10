@@ -1,15 +1,13 @@
 import { model, Schema, Document, Model } from "mongoose";
 
-export const DOCUMENT_NAME = "Product";
-export const COLLECTION_NAME = "products";
+export const DOCUMENT_NAME = "Category";
+export const COLLECTION_NAME = "Catogries";
 
 
-
-interface Product {
+export default interface Category extends Document {
   name: string;
-  description: string;
-  categoryId: string; // Assuming categoryId is associated with products
-  userId: string; // Assuming userId is associated with products
+  description?: string;
+  userId: Schema.Types.ObjectId;
 }
 
 const schema = new Schema(
@@ -19,21 +17,20 @@ const schema = new Schema(
       type: Schema.Types.String,
       required: true,
       trim: true,
+
     },
     description: {
       type: Schema.Types.String,
       required: true,
       trim: true,
 
-    },
-    categoryId: {
-      type: Schema.Types.String,
-      required: true,
-    },
-    userId: {
-      type: Schema.Types.String,
-      required: true,
-    },
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+    }
+
   },
 
   {
@@ -42,36 +39,36 @@ const schema = new Schema(
   }
 );
 
-export const ProductModel = model<Product>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const CategoryModel = model<Category>(DOCUMENT_NAME, schema, COLLECTION_NAME);
 
-export class ProductRepository {
-  private productModel: Model<Product>;
+export class CategoryRepository {
+  private categoryModel: Model<Category>;
 
   constructor() {
-    this.productModel = ProductModel
+    this.categoryModel = CategoryModel;
   }
 
-  async create(user: Partial<Product>): Promise<Product> {
-    return this.productModel.create(user);
+  async create(user: Partial<Category>): Promise<Category> {
+    return this.categoryModel.create(user);
   }
 
-  async findOne(query: Record<string, any>): Promise<Product | null> {
-    return this.productModel.findOne(query).exec();
+  async findOne(query: Record<string, any>): Promise<Category| null> {
+    return this.categoryModel.findOne(query).exec();
   }
 
-  async findMany(): Promise<Product[]> {
-    return this.productModel.find().exec();
+  async findMany(): Promise<Category[]> {
+    return this.categoryModel.find().exec();
   }
 
-  async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Product | null> {
-    return this.productModel.findOneAndUpdate(query, update, { new: true }).exec();
+  async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Category | null> {
+    return this.categoryModel.findOneAndUpdate(query, update, { new: true }).exec();
   }
 
   async deleteAll(): Promise<void> {
-    await this.productModel.deleteMany({}).exec();
+    await this.categoryModel.deleteMany({}).exec();
   }
 
   async deleteOne(query: Record<string, any>): Promise<void> {
-    await this.productModel.deleteOne(query).exec();
+    await this.categoryModel.deleteOne(query).exec();
   }
 }

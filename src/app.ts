@@ -5,11 +5,12 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { UserController } from "./module/auth/controller";
-import { ProductRoutes } from "./module/categoryy/routes";
+import { ProductRoutes } from "./module/category/routes";
 import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
 import {customError} from './utils/customErrorHandeler';
 import expressPinoLogger from 'express-pino-logger'
 import {logger} from './utils/logger'
+import path from "path";
 
 
 config()
@@ -55,21 +56,29 @@ app.use(
 // );
 // app.use(express.static(__dirname + '/public/'));
 // app.use("/upload", express.static("src/upload"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.use("/api/v1", [
-  new UserRoutes().router,
-  new ProductRoutes().router
-]);
-app.all('*', (req: Request, res:Response , next) => {
-  // res.status(400).json({
-  //   status: 'fail',
-  //   message: `cant't find ${req.orignalUrl} on the server`
-  // })
-  const err:any =new customError(`cant't find ${req.originalUrl} on the server`,404)
-  err.statusCode =404;
-  err.status ="fail"
-  next(err)
-})
+// Routes
+app.get('/', (req: Request, res: Response) => {
+  console.log('Rendering app.ejs...');
+  res.render('index');
+});
+
+// app.use("/api/v1", [
+//   new UserRoutes().router,
+//   new ProductRoutes().router
+// ]);
+// app.all('*', (req: Request, res:Response , next) => {
+//   // res.status(400).json({
+//   //   status: 'fail',
+//   //   message: `cant't find ${req.orignalUrl} on the server`
+//   // })
+//   const err:any =new customError(`cant't find ${req.originalUrl} on the server`,404)
+//   err.statusCode =404;
+//   err.status ="fail"
+//   next(err)
+// })
 // app.get('/api/data', async (req:any, res:any) => {
 //   try {
 //     // Make a GET request to an external API (replace with your API endpoint)
@@ -93,15 +102,15 @@ app.all('*', (req: Request, res:Response , next) => {
 //   res.status(500).send({ message: err.message || "Network Error" })
 // })
 
-app.use((error: any, req: Request, res: Response , next: any) => {
-  error.statusCode = error.statusCode || 500
-  error.status =error.status || 'error'
-  res.status(error.statusCode).json({
-    status:error.statusCode,
-    message:error.message
-  })
+// app.use((error: any, req: Request, res: Response , next: any) => {
+//   error.statusCode = error.statusCode || 500
+//   error.status =error.status || 'error'
+//   res.status(error.statusCode).json({
+//     status:error.statusCode,
+//     message:error.message
+//   })
 
-})
+// })
 
 
 

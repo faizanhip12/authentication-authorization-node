@@ -1,18 +1,20 @@
-import { ProductRepository, ProductModel } from './model'
-import asyncHandler from '../../utils/async';
-import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
+import { CategoryRepository, CategoryModel } from './model'
+
+
+import asyncHandler from '../../utils/async'
+
 import * as bcrypt from 'bcrypt';
 
-export class ProductController {
-  productModel = new ProductRepository()
+export class CategoryController {
+
+  categoryModel = new CategoryRepository()
+
   constructor() { }
 
- 
+
   create = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
     const { user, body } = req
-
- 
-    const product = await this.productModel.create(body)
+    const category = await this.categoryModel.create(body)
 
     
     console.log("user", user)
@@ -20,31 +22,24 @@ export class ProductController {
     res.status(200).send({
       success: true,
       message: 'success',
-      data: product
+      data: category
     });
 
   });
 
   getAll = asyncHandler(async (req: any, res: Response | any): Promise<Response | void> => {
     const { user, body } = req
-    const products = await this.productModel.findMany()
+    const categories = await this.categoryModel.findMany()
 
     
 
     res.status(200).send({
       success: true,
       message: 'success',
-      data: products
+      data: categories
     });
 
   });
-
-
-
-
-
-
-
 
 
 }

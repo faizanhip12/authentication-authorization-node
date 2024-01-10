@@ -1,11 +1,11 @@
 // import {UserRepository,UserModel} from './repository'
 import { Router } from 'express';
-import {CategoryController} from './controller'
+import {ProductController} from './controller'
 import { verifyToken } from '../../utils/token'
 export class ProductRoutes {
 
     readonly router: Router = Router();
-    readonly controller:CategoryController = new CategoryController()
+    readonly controller:ProductController = new ProductController()
    
     constructor(){
         this.initRoutes()
@@ -13,7 +13,7 @@ export class ProductRoutes {
     }
 
  initRoutes(){
-    // this.router.get('/products',verifyToken, this.controller.get);
+    this.router.get('/products',verifyToken, this.controller.getAll);
  
  }
     

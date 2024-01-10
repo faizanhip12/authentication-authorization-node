@@ -4,25 +4,25 @@ import { generateToken, refreshToken } from '../../utils/token'
 import asyncHandler from '../../utils/async'
 import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
-import {ApiResponse} from '../../core/response'
-import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
-import {logger} from '../../utils/logger'
+import { ApiResponse } from '../../core/response'
+import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
+import { logger } from '../../utils/logger'
 // import {logger} from '../../utils/pinoHTTP'
 
 
 export class UserController {
- apiResponse = new ApiResponse()
+  apiResponse = new ApiResponse()
   user = new UserRepository()
   constructor() { }
 
-  signup = asyncHandler(async (req: Request  , res: Response ): Promise<Response | void> => {
+  signup = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
 
     // console.log("user", req.body)
 
 
     const findUser = await this.user.findOne({ username: req.body.username })
     console.log("findUser", findUser)
-    
+
     if (findUser) {
       res.status(403).send("user alredy exits")
     }
@@ -57,14 +57,14 @@ export class UserController {
     // console.log("user",req.body)
 
     console.log("try")
-    logger.http('GET route is accessed')
-  
+    // logger.http('sign in route')
 
-    // logger.info('GET route is accessed')
-    // logger.debug('GET route is accessed')
-    // logger.warn('GET route is accessed')
-    // logger.fatal('GET route is accessed')
-   
+
+    logger.info(req, 'sign in route')
+    // logger.debug('sign in route')
+    // logger.warn('sign in route')
+    // logger.fatal('sign in route)
+
     const findUser = await this.user.findOne({ username: req.body.username })
 
     // console.log("findUser", findUser)
@@ -98,33 +98,53 @@ export class UserController {
   });
 
 
-  upload = asyncHandler(async (req: Request, res: Response ): Promise<Response | void> => {
+  upload = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
 
     // console.log("user",req.body)
 
-      // console.log("try")
-      // console.log(req.imageUrl);
-      // res.send('File uploaded successfully!').status(200);
+    // console.log("try")
+    // console.log(req.imageUrl);
+    // res.send('File uploaded successfully!').status(200);
 
-      let imageUrl = ''
-      cloudinary.uploader.upload_stream(
-        { resource_type: 'image' },
-        (error: any, result: any) => {
-          if (error) {
-            return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
-          }
-
-          // Send the public URL of the uploaded image back to the client
-          res.json({ imageUrl: result.secure_url });
-          imageUrl = result.secure_url
-          console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
+    let imageUrl = ''
+    cloudinary.uploader.upload_stream(
+      { resource_type: 'image' },
+      (error: any, result: any) => {
+        if (error) {
+          return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
         }
-      ).end(req.file.buffer);
-      // res.json({ imageUrl: await imageUrl });
-      // res.status(200).send("bad request",{ imageUrl: imageUrl })
+
+        // Send the public URL of the uploaded image back to the client
+        res.json({ imageUrl: result.secure_url });
+        imageUrl = result.secure_url
+        console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
+      }
+    ).end(req.file.buffer);
+    // res.json({ imageUrl: await imageUrl });
+    // res.status(200).send("bad request",{ imageUrl: imageUrl })
 
 
+
+  });
+
+
+  refreshToken = asyncHandler(async (req: Request, res: Response | any): Promise<Response | void> => {
+    const { refreshToken } = req.body;
+    const findUser = await this.user.findOne({ refreshToken: refreshToken})
+
+    if(!findUser){
+      return res.status(403).send("user is not found with that credentials")
+    }
+
+    const generateToke = generateToken(findUser.username)
+
+    res.status(200).send({
+      success: true,
+      message: 'success',
+      data:{token: generateToke},
+    });
     
+
   });
 
 
