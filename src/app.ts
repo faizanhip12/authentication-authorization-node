@@ -6,14 +6,14 @@ import cors from "cors";
 import { config } from "dotenv";
 import { UserController } from "./module/auth/controller";
 import { ProductRoutes } from "./module/category/routes";
-import { NextFunction, Request, Response,ErrorRequestHandler } from 'express';
-import {customError} from './utils/customErrorHandeler';
+import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
+import { customError } from './utils/customErrorHandeler';
 import expressPinoLogger from 'express-pino-logger'
-import {logger} from './utils/logger'
+import { logger } from './utils/logger'
 import path from "path";
 import pasport from './utils/oAuth'
 import expressSession from 'express-session'
-import {UserModel} from './module/auth/model'
+import { UserModel } from './module/auth/model'
 import passport from 'passport'
 
 
@@ -54,7 +54,7 @@ app.use(passport.initialize());
 app.use(expressSession({
   resave: false,
   saveUninitialized: true,
-  secret: 'SECRET' 
+  secret: 'SECRET'
 }));
 
 
@@ -78,34 +78,48 @@ app.get('/', (req: Request, res: Response) => {
   res.render('index');
 });
 
-    app.get('/auth/google', pasport.authenticate('google', { scope: ['profile', 'email'] }));
-    app.get(
-        '/auth/google/callback',
-        pasport.authenticate('google', { failureRedirect: '/' }),
-        (req: Request | any, res: Response |any) => {
-          // Create a JWT token and send it as a response
-          console.log("")
-          // const token = jwt.sign({ user: req.user }, 'your-secret-key', { expiresIn: '1h' });
-          // res.cookie('token', token);
-          res.redirect('/');
-        }
-      );
+passport.serializeUser((user: any, done) => {
+  console.log("useruseruseruseruser",user)
+  done(null, user._id);
+});
+
+passport.deserializeUser(async (_id: string, done) => {
+  try {
+    const user = await UserModel.findById(_id);
+    console.log("deserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUser",user)
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
+app.get('/auth/google', pasport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get(
+  '/auth/google/callback',
+  pasport.authenticate('google', { failureRedirect: '/' }),
+  (req: Request | any, res: Response | any) => {
+    // Create a JWT token and send it as a response
+    console.log("")
+    // const token = jwt.sign({ user: req.user }, 'your-secret-key', { expiresIn: '1h' });
+    // res.cookie('token', token);
+    res.redirect('/');
+  }
+);
 
 
-      // passport.serializeUser((user: any, done) => {
-      //   done(null, user.id);
-      // });
-      
-      // // Deserialize user from the session
-      passport.deserializeUser(async (id: string, done) => {
-        try {
-          const user = await UserModel.findById(id);
-          done(null, user);
-        } catch (error) {
-          done(error, null);
-        }
-      });
-      
+// passport.serializeUser((user: any, done) => {
+//   done(null, user.id);
+// });
+
+// // Deserialize user from the session
+// passport.deserializeUser(async (id: string, done) => {
+//   try {
+//     const user = await UserModel.findById(id);
+//     done(null, user);
+//   } catch (error) {
+//     done(error, null);
+//   }
+// });
+
 
 // app.use("/api/v1", [
 //   new UserRoutes().router,
