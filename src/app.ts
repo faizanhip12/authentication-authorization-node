@@ -92,18 +92,20 @@ passport.deserializeUser(async (_id: string, done) => {
     done(error, null);
   }
 });
-app.get('/auth/google', pasport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get(
-  '/auth/google/callback',
-  pasport.authenticate('google', { failureRedirect: '/' }),
-  (req: Request | any, res: Response | any) => {
-    // Create a JWT token and send it as a response
-    console.log("")
-    // const token = jwt.sign({ user: req.user }, 'your-secret-key', { expiresIn: '1h' });
-    // res.cookie('token', token);
-    res.redirect('/');
-  }
-);
+
+// ** google authentication **//
+// app.get('/auth/google', pasport.authenticate('google', { scope: ['profile', 'email'] }));
+// app.get(
+//   '/auth/google/callback',
+//   pasport.authenticate('google', { failureRedirect: '/' }),
+//   (req: Request | any, res: Response | any) => {
+//     // Create a JWT token and send it as a response
+//     console.log("")
+//     // const token = jwt.sign({ user: req.user }, 'your-secret-key', { expiresIn: '1h' });
+//     // res.cookie('token', token);
+//     res.redirect('/');
+//   }
+// );
 
 
 // passport.serializeUser((user: any, done) => {
@@ -121,20 +123,20 @@ app.get(
 // });
 
 
-// app.use("/api/v1", [
-//   new UserRoutes().router,
-//   new ProductRoutes().router
-// ]);
-// app.all('*', (req: Request, res:Response , next) => {
-//   // res.status(400).json({
-//   //   status: 'fail',
-//   //   message: `cant't find ${req.orignalUrl} on the server`
-//   // })
-//   const err:any =new customError(`cant't find ${req.originalUrl} on the server`,404)
-//   err.statusCode =404;
-//   err.status ="fail"
-//   next(err)
-// })
+app.use("/api/v1", [
+  new UserRoutes().router,
+  new ProductRoutes().router
+]);
+app.all('*', (req: Request, res:Response , next) => {
+  // res.status(400).json({
+  //   status: 'fail',
+  //   message: `cant't find ${req.orignalUrl} on the server`
+  // })
+  const err:any =new customError(`cant't find ${req.originalUrl} on the server`,404)
+  err.statusCode =404;
+  err.status ="fail"
+  next(err)
+})
 // app.get('/api/data', async (req:any, res:any) => {
 //   try {
 //     // Make a GET request to an external API (replace with your API endpoint)
@@ -158,15 +160,15 @@ app.get(
 //   res.status(500).send({ message: err.message || "Network Error" })
 // })
 
-// app.use((error: any, req: Request, res: Response , next: any) => {
-//   error.statusCode = error.statusCode || 500
-//   error.status =error.status || 'error'
-//   res.status(error.statusCode).json({
-//     status:error.statusCode,
-//     message:error.message
-//   })
+app.use((error: any, req: Request, res: Response , next: any) => {
+  error.statusCode = error.statusCode || 500
+  error.status =error.status || 'error'
+  res.status(error.statusCode).json({
+    status:error.statusCode,
+    message:error.message
+  })
 
-// })
+ })
 
 
 
