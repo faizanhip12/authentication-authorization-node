@@ -29,10 +29,12 @@ const schema = new Schema(
       type: Schema.Types.String,
       required: true,
       trim: true,
+      
 
     },
     email: {
       type: Schema.Types.String,
+      required: true,
       trim: true,
     },
     role: {
@@ -49,7 +51,7 @@ const schema = new Schema(
     },
     googleId: {
       type: Schema.Types.String,
-      required: true,
+      // required: true,
 
     }
 

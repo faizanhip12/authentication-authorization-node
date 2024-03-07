@@ -1,16 +1,15 @@
-// import {UserRepository,UserModel} from './repository'
 import { Router } from 'express';
-import {UserController} from './controller'
+import {TutorialController} from './controller'
 import validator from '../../midlleware/joi'
-import { signup,login } from './rules';
+
 import {upload} from '../../midlleware/cloudnairy'
 // import passport from 'passport';
 import passport from '../../utils/oAuth'
 
-export class UserRoutes {
+export class TutorialRoutes {
 
     readonly router: Router = Router();
-    readonly controller:UserController = new UserController()
+    readonly controller:TutorialController = new TutorialController()
    
     constructor(){
         this.initRoutes()
@@ -18,9 +17,10 @@ export class UserRoutes {
     }
 
  initRoutes(){
-    this.router.post('/auth/signup',validator(signup), this.controller.signup);
-    this.router.post('/auth/signin',validator(login), this.controller.signin);
-    this.router.post('/auth/generate-token', this.controller.refreshToken);
+    this.router.post('/tutorial', this.controller.create);
+    this.router.get('/tutorial', this.controller.getAll);
+    // this.router.post('/auth/signin',validator(login), this.controller.signin);
+    // this.router.post('/auth/generate-token', this.controller.refreshToken);
     // this.router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
     // this.router.get(
     //     '/auth/google/callback',
@@ -33,7 +33,7 @@ export class UserRoutes {
     //     }
     //   );
     // this.router.post('/auth/upload',upload.single('file') ,this.controller.upload);
-    this.router.post('/auth/upload',upload.single('image'),this.controller.upload);
+    // this.router.post('/auth/upload',upload.single('image'),this.controller.upload);
  }
     
     

@@ -65,15 +65,15 @@ export class UserController {
     // logger.warn('sign in route')
     // logger.fatal('sign in route)
 
-    const findUser = await this.user.findOne({ username: req.body.username })
+    const findUser = await this.user.findOne({ email: req.body.email})
 
     // console.log("findUser", findUser)
     if (findUser) {
 
       const isMatch = await bcrypt.compare(req.body.password, findUser.password);
       if (isMatch) {
-        const generateToke = generateToken(req.body.username)
-        const refreshToke = refreshToken(req.body.username)
+        const generateToke = generateToken(req.body.email)
+        const refreshToke = refreshToken(req.body.email)
 
         const updatedUser = await this.user.findOneAndUpdate({ _id: findUser._id }, { refreshToken: refreshToke })
 

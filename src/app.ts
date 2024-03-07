@@ -15,7 +15,7 @@ import pasport from './utils/oAuth'
 import expressSession from 'express-session'
 import { UserModel } from './module/auth/model'
 import passport from 'passport'
-
+import  {TutorialRoutes} from './module/item/routes'
 
 config()
 
@@ -125,7 +125,8 @@ passport.deserializeUser(async (_id: string, done) => {
 
 app.use("/api/v1", [
   new UserRoutes().router,
-  new ProductRoutes().router
+  new ProductRoutes().router,
+  new TutorialRoutes().router
 ]);
 app.all('*', (req: Request, res:Response , next) => {
   // res.status(400).json({
