@@ -14,6 +14,7 @@ export class ProductRoutes {
 
  initRoutes(){
     this.router.get('/products',verifyToken, this.controller.getAll);
+    this.router.post('/products', this.controller.create);
  
  }
     

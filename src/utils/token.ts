@@ -13,7 +13,7 @@ export const generateToken = (user: any) => {
   const payload = {
     // Add your custom claims here if needed
     user:user,
-    exp: Math.floor(Date.now() / 1000) + 60 * 30, // 30 minutes expiration
+    exp: Math.floor(Date.now() / 1000) + 60, // 30 minutes expiration
   };
 
   const token = jwt.sign(payload, secretKey);
@@ -31,7 +31,8 @@ export const refreshToken = (user: any) => {
   const payload = {
     // Add your custom claims here if needed
     user:user,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60, // 30 minutes expiration
+    // exp: Math.floor(Date.now() / 1000) + 60 * 60,
+     exp : Math.floor(Date.now() / 1000) + 60 * 60,
   };
 
   const token = jwt.sign(payload, secretKey);
@@ -43,18 +44,18 @@ export const refreshToken = (user: any) => {
 export const verifyToken = (req: Request, res: Response, next: NextFunction): any => {
   const token = req.header('Authorization');
   //@ts-ignore
-  console.log("req.user verify token",)
+  console.log("req.user verify token",token)
 
 
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(400).json({ message: 'token is found' });
   }
   const tokenParts = token.split(' ');
   const tokenValue = tokenParts[1];
   jwt.verify(tokenValue, secretKey, (err: any, decoded: any) => {
     if (err) {
       console.log("err", err)
-      return res.status(403).json({ message: 'Forbidden' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     req['user'] = decoded; // Attach decoded user to request object

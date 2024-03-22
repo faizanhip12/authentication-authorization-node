@@ -65,24 +65,29 @@ export class UserController {
     // logger.warn('sign in route')
     // logger.fatal('sign in route)
 
-    const findUser = await this.user.findOne({ email: req.body.email})
+    const findUser = await this.user.findOne({ username: req.body.username})
 
     // console.log("findUser", findUser)
     if (findUser) {
 
       const isMatch = await bcrypt.compare(req.body.password, findUser.password);
       if (isMatch) {
-        const generateToke = generateToken(req.body.email)
-        const refreshToke = refreshToken(req.body.email)
+        const generateToke = generateToken(req.body.username)
+        const refreshToke = refreshToken(req.body.username)
 
         const updatedUser = await this.user.findOneAndUpdate({ _id: findUser._id }, { refreshToken: refreshToke })
-
+        // updatedUser.accessToken = generateToke
+        // updatedUser.refreshToken = generateToke
+        console.log("updatedUser",updatedUser)
+        const fullData ={...updatedUser.toObject(),accessToken:generateToke,refreshToken:refreshToke}
+        console.log("fullData",fullData)
         res.status(200).send({
           success: true,
           message: 'success',
-          data: updatedUser,
-          generateToke,
-          refreshToken: refreshToke
+          // data:{...updatedUser,accessToken:generateToke,refreshToken:refreshToke},
+          data:fullData,
+          // generateToke,
+          // refreshToken: refreshToke
         });
       }
       else {
@@ -129,6 +134,7 @@ export class UserController {
 
 
   refreshToken = asyncHandler(async (req: Request, res: Response | any): Promise<Response | void> => {
+    console.log("refrseh token")
     const { refreshToken } = req.body;
     const findUser = await this.user.findOne({ refreshToken: refreshToken})
 
@@ -137,11 +143,12 @@ export class UserController {
     }
 
     const generateToke = generateToken(findUser.username)
+    console.log("generateToke refreshToken",generateToke)
 
     res.status(200).send({
       success: true,
       message: 'success',
-      data:{token: generateToke},
+      data:{accessToken: generateToke},
     });
     
 
