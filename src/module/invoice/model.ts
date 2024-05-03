@@ -48,7 +48,7 @@ export const COLLECTION_NAME = "invoicess";
 //   }
 
 
-export default interface Subscription extends Document {
+export default interface Invoice extends Document {
     stripe : String;
     price: String;
     currency: String;
@@ -88,4 +88,4 @@ const schema = new Schema(
     }
 );
 
-// export const CategoryModel = model<Subscription>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const InvoiceModel = model<Invoice>(DOCUMENT_NAME, schema, COLLECTION_NAME);

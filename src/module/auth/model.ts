@@ -29,7 +29,7 @@ const schema = new Schema(
       type: Schema.Types.String,
       required: true,
       trim: true,
-      
+
 
     },
     email: {
@@ -53,8 +53,16 @@ const schema = new Schema(
       type: Schema.Types.String,
       // required: true,
 
-    }
+    },
+    stripe_customerId: {
+      type: Schema.Types.String,
+      required: true,
+    },
 
+    stripe_accountId: {
+      type: Schema.Types.String,
+      required: true,
+    },
   },
 
   {

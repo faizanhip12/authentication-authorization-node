@@ -16,6 +16,7 @@ import expressSession from 'express-session'
 import { UserModel } from './module/auth/model'
 import passport from 'passport'
 import  {TutorialRoutes} from './module/item/routes'
+import {PaymentIntentRoutes} from './module/patmentIntent/routes'
 
 config()
 
@@ -126,7 +127,8 @@ passport.deserializeUser(async (_id: string, done) => {
 app.use("/api/v1", [
   new UserRoutes().router,
   new ProductRoutes().router,
-  new TutorialRoutes().router
+  new TutorialRoutes().router,
+  new PaymentIntentRoutes().router,
 ]);
 app.all('*', (req: Request, res:Response , next) => {
   // res.status(400).json({

@@ -6,21 +6,25 @@ import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
 import { ApiResponse } from '../../core/response'
 import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
-import { logger } from '../../utils/logger'
+import { logger } from '../../utils/logger';
+import {StripeService} from '../../service/stripe'
 // import {logger} from '../../utils/pinoHTTP'
 
 
 export class UserController {
   apiResponse = new ApiResponse()
   user = new UserRepository()
+  stripe =new StripeService()
   constructor() { }
 
   signup = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
 
-    // console.log("user", req.body)
+  
+
+    console.log("user", req.body)
 
 
-    const findUser = await this.user.findOne({ username: req.body.username })
+    const findUser = await this.user.findOne({ email: req.body.email })
     console.log("findUser", findUser)
 
     if (findUser) {
@@ -30,21 +34,29 @@ export class UserController {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
       req.body.password = await bcrypt.hash(req.body.password, salt);
-      const generateToke = generateToken(req.body.username)
-      const refreshToke = refreshToken(req.body.username)
+      const generateToke = generateToken(req.body.email)
+      const refreshToke = refreshToken(req.body.email)
       req.body.refreshToken = refreshToke
+      const createStripeCustomer = await this.stripe.createCustomer({email:req.body.email,name:req.body.username})
+      const createStripeAccount = await this.stripe.createAccount(req.body.email)
+
+      console.log("createStripeCustomer",createStripeCustomer.id)
+      console.log("createStripeAccount",createStripeAccount.id)
+      req.body.stripe_customerId = createStripeCustomer.id
+      req.body.stripe_accountId =createStripeAccount.id
+       
       const user = await this.user.create(req.body)
 
       // console.log("generateToke",generateToke.username )
 
-      console.log("user", user)
+      // console.log("user", user)
       // this.apiResponse.successHandler("",{})
       res.status(200).send({
         success: true,
         message: 'success',
-        data: user,
-        token: generateToke,
-        refreshToken: refreshToke
+        data:{ ...user.toObject(),token:generateToke,refreshToken:refreshToke},
+        // token: generateToke,
+        // refreshToken: refreshToke
       });
     }
 
@@ -65,15 +77,15 @@ export class UserController {
     // logger.warn('sign in route')
     // logger.fatal('sign in route)
 
-    const findUser = await this.user.findOne({ username: req.body.username})
+    const findUser = await this.user.findOne({ email: req.body.email})
 
     // console.log("findUser", findUser)
     if (findUser) {
 
       const isMatch = await bcrypt.compare(req.body.password, findUser.password);
       if (isMatch) {
-        const generateToke = generateToken(req.body.username)
-        const refreshToke = refreshToken(req.body.username)
+        const generateToke = generateToken(req.body.email)
+        const refreshToke = refreshToken(req.body.email)
 
         const updatedUser = await this.user.findOneAndUpdate({ _id: findUser._id }, { refreshToken: refreshToke })
         // updatedUser.accessToken = generateToke

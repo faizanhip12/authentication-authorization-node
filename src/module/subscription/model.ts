@@ -134,36 +134,36 @@ const schema = new Schema(
     }
 );
 
-export const CategoryModel = model<Subscription>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const SubscriptionModel = model<Subscription>(DOCUMENT_NAME, schema, COLLECTION_NAME);
 
-// export class CategoryRepository {
-//     private categoryModel: Model<Category>;
+export class SubscriptionRepository {
+    private subscriptionModel: Model<Subscription>;
 
-//     constructor() {
-//         this.categoryModel = CategoryModel;
-//     }
+    constructor() {
+        this.subscriptionModel = SubscriptionModel;
+    }
 
-//     async create(user: Partial<Category>): Promise<Category> {
-//         return this.categoryModel.create(user);
-//     }
+    async create(user: Partial<Subscription>): Promise<Subscription> {
+        return this.subscriptionModel.create(user);
+    }
 
-//     async findOne(query: Record<string, any>): Promise<Category | null> {
-//         return this.categoryModel.findOne(query).exec();
-//     }
+    async findOne(query: Record<string, any>): Promise<Subscription | null> {
+        return this.subscriptionModel.findOne(query).exec();
+    }
 
-//     async findMany(): Promise<Category[]> {
-//         return this.categoryModel.find().exec();
-//     }
+    async findMany(): Promise<Subscription[]> {
+        return this.subscriptionModel.find().exec();
+    }
 
-//     async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Category | null> {
-//         return this.categoryModel.findOneAndUpdate(query, update, { new: true }).exec();
-//     }
+    async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Subscription | null> {
+        return this.subscriptionModel.findOneAndUpdate(query, update, { new: true }).exec();
+    }
 
-//     async deleteAll(): Promise<void> {
-//         await this.categoryModel.deleteMany({}).exec();
-//     }
+    async deleteAll(): Promise<void> {
+        await this.subscriptionModel.deleteMany({}).exec();
+    }
 
-//     async deleteOne(query: Record<string, any>): Promise<void> {
-//         await this.categoryModel.deleteOne(query).exec();
-//     }
-// }
+    async deleteOne(query: Record<string, any>): Promise<void> {
+        await this.subscriptionModel.deleteOne(query).exec();
+    }
+}

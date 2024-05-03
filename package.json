@@ -43,6 +43,6 @@
     "pino-http": "^9.0.0",
     "pino-pretty": "^5.0.2",
     "socket.io": "^4.7.2",
-    "stripe": "^14.22.0"
+    "stripe": "^11.4.0"
   }
 }
