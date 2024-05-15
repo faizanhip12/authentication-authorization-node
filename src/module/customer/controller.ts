@@ -228,7 +228,7 @@ export class UserController {
     res.status(200).send({
       success: true,
       message: 'success',
-      data: {...findUser  },
+      data: {findUser },
 
     });
 
