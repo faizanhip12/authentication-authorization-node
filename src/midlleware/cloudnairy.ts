@@ -7,6 +7,8 @@ import {v2 as cloudinary} from 'cloudinary';
 const app = express();
 const storage = multer.memoryStorage();
 export const upload = multer({ storage: storage });
+console.log("upload",upload)
+console.log("upload",upload)
 
 // Configure Cloudinary
 cloudinary.config({

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Application, Router } from "express";
 import { UserRoutes } from './module/auth/routes'
+import CustomerRoutes from './module/customer/routes'
 import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from "dotenv";
@@ -69,30 +70,31 @@ app.use(expressSession({
 
 // );
 // app.use(express.static(__dirname + '/public/'));
-// app.use("/upload", express.static("src/upload"));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// app.use("/uploads", express.static("src/upload"));
+app.use("/uploads", express.static(path.join(__dirname, '../../src/uploads')));
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
 
 // Routes
-app.get('/', (req: Request, res: Response) => {
-  console.log('Rendering app.ejs...');
-  res.render('index');
-});
+// app.get('/', (req: Request, res: Response) => {
+//   console.log('Rendering app.ejs...');
+//   res.render('index');
+// });
 
-passport.serializeUser((user: any, done) => {
-  console.log("useruseruseruseruser",user)
-  done(null, user._id);
-});
+// passport.serializeUser((user: any, done) => {
+//   console.log("useruseruseruseruser",user)
+//   done(null, user._id);
+// });
 
-passport.deserializeUser(async (_id: string, done) => {
-  try {
-    const user = await UserModel.findById(_id);
-    console.log("deserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUser",user)
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
+// passport.deserializeUser(async (_id: string, done) => {
+//   try {
+//     const user = await UserModel.findById(_id);
+//     console.log("deserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUserdeserializeUser",user)
+//     done(null, user);
+//   } catch (error) {
+//     done(error, null);
+//   }
+// });
 
 // ** google authentication **//
 // app.get('/auth/google', pasport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -129,6 +131,7 @@ app.use("/api/v1", [
   new ProductRoutes().router,
   new TutorialRoutes().router,
   new PaymentIntentRoutes().router,
+  new CustomerRoutes().router
 ]);
 app.all('*', (req: Request, res:Response , next) => {
   // res.status(400).json({
