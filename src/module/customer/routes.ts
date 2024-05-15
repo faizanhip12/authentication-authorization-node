@@ -33,7 +33,7 @@ export default class UserRoutes {
     //     //   res.redirect('/');
     //     }
     //   );
-    this.router.get('/auth/upload',this.controller.upload);
+    this.router.get('/customer',this.controller.getAllCustomers);
     // this.router.post('/auth/upload',upload.single('image'),this.controller.upload);
  }
     

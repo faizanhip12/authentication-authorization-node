@@ -56,7 +56,7 @@ export class UserController {
 
       //   req.body.imageUrl = imageUrl
 
-       console.log("imageUrl",req.file)
+      console.log("imageUrl", req.file)
       const imageUrl = `http://localhost:<span class="math-inline">\{process\.env\.PORT\}/uploads/</span>{filePath.split('/').pop()}`;
       console.log("imageUrl", imageUrl)
       const user = await this.user.create({
@@ -134,31 +134,103 @@ export class UserController {
   // });
 
 
-  upload = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+  // upload = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
 
-    // console.log("user",req.body)
+  //   // console.log("user",req.body)
 
-    // console.log("try")
-    // console.log(req.imageUrl);
-    // res.send('File uploaded successfully!').status(200);
+  //   // console.log("try")
+  //   // console.log(req.imageUrl);
+  //   // res.send('File uploaded successfully!').status(200);
 
-    let imageUrl = ''
-    cloudinary.uploader.upload_stream(
-      { resource_type: 'image' },
-      (error: any, result: any) => {
-        if (error) {
-          return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
-        }
+  //   let imageUrl = ''
+  //   cloudinary.uploader.upload_stream(
+  //     { resource_type: 'image' },
+  //     (error: any, result: any) => {
+  //       if (error) {
+  //         return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
+  //       }
 
-        // Send the public URL of the uploaded image back to the client
-        res.json({ imageUrl: result.secure_url });
-        imageUrl = result.secure_url
-        console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
-      }
-    ).end(req.file.buffer);
-    // res.json({ imageUrl: await imageUrl });
-    // res.status(200).send("bad request",{ imageUrl: imageUrl })
+  //       // Send the public URL of the uploaded image back to the client
+  //       res.json({ imageUrl: result.secure_url });
+  //       imageUrl = result.secure_url
+  //       console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
+  //     }
+  //   ).end(req.file.buffer);
+  //   // res.json({ imageUrl: await imageUrl });
+  //   // res.status(200).send("bad request",{ imageUrl: imageUrl })
 
+
+
+  // });
+
+
+  // upload = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+
+  //   // console.log("user",req.body)
+
+  //   // console.log("try")
+  //   // console.log(req.imageUrl);
+  //   // res.send('File uploaded successfully!').status(200);
+
+  //   let imageUrl = ''
+  //   cloudinary.uploader.upload_stream(
+  //     { resource_type: 'image' },
+  //     (error: any, result: any) => {
+  //       if (error) {
+  //         return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
+  //       }
+
+  //       // Send the public URL of the uploaded image back to the client
+  //       res.json({ imageUrl: result.secure_url });
+  //       imageUrl = result.secure_url
+  //       console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
+  //     }
+  //   ).end(req.file.buffer);
+  //   // res.json({ imageUrl: await imageUrl });
+  //   // res.status(200).send("bad request",{ imageUrl: imageUrl })
+
+
+
+  // });
+
+
+  // upload = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+
+
+  //   let imageUrl = ''
+  //   cloudinary.uploader.upload_stream(
+  //     { resource_type: 'image' },
+  //     (error: any, result: any) => {
+  //       if (error) {
+  //         return res.status(500).json({ error: 'Error uploading image to Cloudinary' });
+  //       }
+
+  //       // Send the public URL of the uploaded image back to the client
+  //       res.json({ imageUrl: result.secure_url });
+  //       imageUrl = result.secure_url
+  //       console.log("{ imageUrl: result.secure_url }", { imageUrl: result.secure_url })
+  //     }
+  //   ).end(req.file.buffer);
+  //   // res.json({ imageUrl: await imageUrl });
+  //   // res.status(200).send("bad request",{ imageUrl: imageUrl })
+
+
+
+  // });
+
+  getAllCustomers = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+
+
+    const findUser = await this.user.findMany()
+
+    console.log("findUser",findUser)
+
+    res.status(200).send({
+      success: true,
+      message: 'success',
+      data: {...findUser  },
+
+    });
 
 
   });

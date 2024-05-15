@@ -65,8 +65,8 @@ export class UserRepository {
     return this.userModel.findOne(query).exec();
   }
 
-  async findMany(query: Record<string, any>): Promise<Customer[]> {
-    return this.userModel.find(query).exec();
+  async findMany(): Promise<Customer[]> {
+    return this.userModel.find().exec();
   }
 
   async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Customer| null> {
