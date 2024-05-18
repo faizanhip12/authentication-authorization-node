@@ -70,6 +70,8 @@ export class UserRepository {
   }
 
   async findOneAndUpdate(query: Record<string, any>, update: Record<string, any>): Promise<Customer| null> {
+    console.log("queryqueryqueryquery",query)
+    console.log("queryqueryqueryquery",update)
     return this.userModel.findOneAndUpdate(query, update, { new: true }).exec();
   }
 
@@ -80,4 +82,12 @@ export class UserRepository {
   async deleteOne(query: Record<string, any>): Promise<void> {
     await this.userModel.deleteOne(query).exec();
   }
+
+  async findOneAndDelete(id:any): Promise<any| null> {
+    return this.userModel.findOneAndDelete({_id:id}).exec();
+  }
+
+  // findOneAndDelete({
+  //   _id: req.params.id,
+  // })
 }

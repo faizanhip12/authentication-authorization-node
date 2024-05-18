@@ -30,6 +30,10 @@ const loggerMidlleware = expressPinoLogger({
 // const controller:UserController = new UserController()
 // app.use(logger)
 
+// app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
+
+
+
 
 
 // app.use(loggerMidlleware);
@@ -60,7 +64,11 @@ app.use(expressSession({
 }));
 
 
-
+// const uploadsPath = path.join(__dirname, 'src', 'uploads');
+// console.log(`Serving static files from: ${uploadsPath}`)
+// app.use('/uploads', express.static(path.join(__dirname, 'dist', 'src', 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, '../src/uploads')));
+// console.log(`Serving static files from: ${uploadsPath}`)
 
 
 //  const authRoutes = Router();
@@ -71,7 +79,11 @@ app.use(expressSession({
 // );
 // app.use(express.static(__dirname + '/public/'));
 // app.use("/uploads", express.static("src/upload"));
-app.use("/uploads", express.static(path.join(__dirname, '../../src/uploads')));
+// app.use("/uploads", express.static(path.join(__dirname, '../../src/uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
+
+
+
 // app.set('view engine', 'ejs');
 // app.set('views', path.join(__dirname, 'views'));
 
@@ -133,6 +145,7 @@ app.use("/api/v1", [
   new PaymentIntentRoutes().router,
   new CustomerRoutes().router
 ]);
+
 app.all('*', (req: Request, res:Response , next) => {
   // res.status(400).json({
   //   status: 'fail',

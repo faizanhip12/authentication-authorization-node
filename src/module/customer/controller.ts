@@ -63,7 +63,9 @@ export class UserController {
         userName: req.body.email,
         customerName: req.body.customerName,
         email: req.body.email,
-        imageUrl: '/uploads/' + req.file?.filename
+        imageUrl: 'http://localhost:8080/uploads/' + req.file?.filename
+
+
 
       })
 
@@ -223,17 +225,66 @@ export class UserController {
 
     const findUser = await this.user.findMany()
 
-    console.log("findUser",findUser)
+    console.log("findUser", findUser)
+    const customers = [...findUser]
+    // console.log("datadatadatadatadata",data)
+    //@ts-ignore
+    // const customers=data.customers
+
+    // console.log("customerscustomerscustomerscustomers",data)
 
     res.status(200).send({
       success: true,
       message: 'success',
-      data: {findUser },
+
+      data: { customers },
 
     });
 
 
   });
+
+
+  deleteCustomer = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+
+    console.log("deleteCustomerdeleteCustomerdeleteCustomerdeleteCustomerdeleteCustomerdeleteCustomerdeleteCustomer")
+    //@ts-ignore
+    const deleteUser = await this.user.findOneAndDelete(req.params.id)
+
+    console.log("findUserfindUserfindUserfindUserfindUserfindUserfindUserfindUser", deleteUser)
+
+    res.status(200).send({
+      success: true,
+      message: 'success',
+      data: { deleteUser },
+
+    });
+
+
+  });
+
+
+  updateCustomer = asyncHandler(async (req: Request, res: Response): Promise<Response | void> => {
+
+
+    console.log("req.bodyreq.bodyreq.bodyreq.bodyreq.body", req.body)
+
+    console.log("req.params.idreq.params.idreq.params.idreq.params.idreq.params.id", req.params.id)
+    //@ts-ignore
+    // const findUser = await this.user.findOneAndUpdate(req.params.id, req.body)
+
+    // console.log("findUser", findUser)
+
+    // res.status(200).send({
+    //   success: true,
+    //   message: 'success',
+    //   data: { findUser },
+
+    // });
+
+
+  });
+
 
 
   // refreshToken = asyncHandler(async (req: Request, res: Response | any): Promise<Response | void> => {
